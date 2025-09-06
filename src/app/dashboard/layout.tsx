@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     return (
         <div className="flex min-h-screen bg-muted/30">
             {/* Sidebar */}
-            <aside className="w-64 bg-white border-r shadow-sm flex flex-col">
+            <aside className="w-64 bg-white border-r shadow-sm flex flex-col sticky top-0 left-0 h-screen ">
                 {/* Logo / Title */}
                 <div className="p-6 font-bold text-xl text-primary tracking-tight">
                     Admin Dashboard
@@ -74,7 +74,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             {/* Main Content */}
             <div className="flex-1 flex flex-col">
                 {/* Top Navbar */}
-                <header className="h-14 border-b bg-white flex items-center justify-between px-6 shadow-sm">
+                <header className="h-14 border-b bg-white flex items-center justify-between px-6 shadow-sm sticky top-0">
                     <h1 className="font-semibold text-lg">Dashboard</h1>
                 </header>
 
