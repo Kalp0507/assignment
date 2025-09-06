@@ -7,7 +7,7 @@ import {
     Home,
     FileText,
     HelpCircle,
-    LogOut
+    LogOut,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/hooks/useAuth"
@@ -27,35 +27,45 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <div className="flex min-h-screen bg-muted/30">
             {/* Sidebar */}
             <aside className="w-64 bg-white border-r shadow-sm flex flex-col">
-                <div className="p-6 font-bold text-xl text-primary">
+                {/* Logo / Title */}
+                <div className="p-6 font-bold text-xl text-primary tracking-tight">
                     Admin Dashboard
                 </div>
-                <nav className="flex-1 space-y-1 px-2">
+
+                {/* Navigation */}
+                <nav className="flex-1 space-y-1 px-3">
                     {sidebarItems.map((item) => {
-                        const isActive = pathname === item.path
+                        const isActive = pathname.startsWith(item.path) // ✅ highlight parent routes too
                         return (
                             <Button
                                 key={item.path}
                                 variant={isActive ? "secondary" : "ghost"}
-                                className={cn("w-full justify-start gap-2", isActive && "font-semibold")}
+                                className={cn(
+                                    "w-full justify-start gap-2 rounded-lg",
+                                    isActive
+                                        ? "bg-primary/10 text-primary font-medium"
+                                        : "text-muted-foreground hover:text-foreground"
+                                )}
                                 onClick={() => router.push(item.path)}
                             >
-                                <item.icon className="h-4 w-4" />
+                                <item.icon className="h-4 w-4 shrink-0" />
                                 {item.name}
                             </Button>
                         )
                     })}
                 </nav>
-                <div className="p-4">
+
+                {/* Logout Button */}
+                <div className="p-4 border-t">
                     <Button
                         variant="destructive"
-                        className="w-full"
+                        className="w-full justify-start gap-2"
                         onClick={() => {
                             logout()
                             router.push("/login")
                         }}
                     >
-                        <LogOut className="mr-2 h-4 w-4" />
+                        <LogOut className="h-4 w-4 shrink-0" />
                         Logout
                     </Button>
                 </div>
@@ -66,9 +76,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 {/* Top Navbar */}
                 <header className="h-14 border-b bg-white flex items-center justify-between px-6 shadow-sm">
                     <h1 className="font-semibold text-lg">Dashboard</h1>
-                    <div className="text-sm text-muted-foreground">
-                        Welcome back 👋
-                    </div>
+                    <div className="text-sm text-muted-foreground">Welcome back 👋</div>
                 </header>
 
                 {/* Content Area */}
