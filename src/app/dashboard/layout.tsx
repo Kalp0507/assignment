@@ -59,7 +59,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 <div className="p-4 border-t">
                     <Button
                         variant="destructive"
-                        className="w-full justify-start gap-2"
+                        className="w-full items-center justify-center gap-2"
                         onClick={() => {
                             logout()
                             router.push("/login")
@@ -76,7 +76,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 {/* Top Navbar */}
                 <header className="h-14 border-b bg-white flex items-center justify-between px-6 shadow-sm">
                     <h1 className="font-semibold text-lg">Dashboard</h1>
-                    <div className="text-sm text-muted-foreground">Welcome back 👋</div>
                 </header>
 
                 {/* Content Area */}

@@ -19,16 +19,35 @@ interface FormState {
     submissions: FormData[];
     saveFormData: (data: Partial<FormData>) => void;
     addSubmission: () => void;
+    loadFromStorage: () => void;
 }
+
+const STORAGE_KEY = "submissions";
 
 export const useFormStore = create<FormState>((set, get) => ({
     formData: {},
     submissions: [],
+
     saveFormData: (data) =>
         set((state) => ({ formData: { ...state.formData, ...data } })),
-    addSubmission: () =>
-        set((state) => ({
-            submissions: [...state.submissions, state.formData],
-            formData: {}, // reset after submit
-        })),
+
+    addSubmission: () => {
+        const newSubmissions = [...get().submissions, get().formData];
+        // Save to localStorage
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(newSubmissions));
+
+        set({
+            submissions: newSubmissions,
+            formData: {}, // reset form after submission
+        });
+    },
+
+    loadFromStorage: () => {
+        if (typeof window !== "undefined") {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                set({ submissions: JSON.parse(stored) });
+            }
+        }
+    },
 }));

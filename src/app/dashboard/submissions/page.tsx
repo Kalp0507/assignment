@@ -4,10 +4,16 @@ import { useFormStore } from "@/stores/formStore"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 export default function SubmissionsPage() {
     const submissions = useFormStore((s) => s.submissions)
+    const loadFromStorage = useFormStore((s) => s.loadFromStorage)
     const router = useRouter();
+
+    useEffect(() => {
+        loadFromStorage()
+    }, [loadFromStorage])
 
     return (
         <div className="space-y-6">
