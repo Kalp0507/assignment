@@ -8,9 +8,12 @@ import {
     FileText,
     HelpCircle,
     LogOut,
+    Menu,
+    Bell,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/hooks/useAuth"
+import { Input } from "@/components/ui/input"
 
 const sidebarItems = [
     { name: "Overview", icon: Home, path: "/dashboard/overview" },
@@ -21,12 +24,12 @@ const sidebarItems = [
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const router = useRouter()
     const pathname = usePathname()
-    const { logout } = useAuth()
+    const { user, logout } = useAuth()   // ✅ get user from hook
 
     return (
         <div className="flex min-h-screen bg-muted/30">
             {/* Sidebar */}
-            <aside className="w-64 bg-white border-r shadow-sm flex flex-col sticky top-0 left-0 h-screen ">
+            <aside className="w-64 bg-white border-r shadow-sm flex flex-col sticky top-0 left-0 h-screen">
                 {/* Logo / Title */}
                 <div className="p-6 font-bold text-xl text-primary tracking-tight">
                     Admin Dashboard
@@ -35,7 +38,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 {/* Navigation */}
                 <nav className="flex-1 space-y-1 px-3">
                     {sidebarItems.map((item) => {
-                        const isActive = pathname.startsWith(item.path) // ✅ highlight parent routes too
+                        const isActive = pathname.startsWith(item.path)
                         return (
                             <Button
                                 key={item.path}
@@ -55,8 +58,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     })}
                 </nav>
 
-                {/* Logout Button */}
-                <div className="p-4 border-t">
+                {/* Logout + User Info */}
+                <div className="p-4 border-t space-y-2">
+                    <div className="mt-auto flex items-center gap-2">
+                        <div className="h-10 w-10 rounded-full bg-gray-300" />
+                        <span className="font-semibold">{user?.username || "Guest"}</span> {/* ✅ display email */}
+                    </div>
                     <Button
                         variant="destructive"
                         className="w-full items-center justify-center gap-2"
@@ -74,8 +81,16 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             {/* Main Content */}
             <div className="flex-1 flex flex-col">
                 {/* Top Navbar */}
-                <header className="h-14 border-b bg-white flex items-center justify-between px-6 shadow-sm sticky top-0">
-                    <h1 className="font-semibold text-lg">Dashboard</h1>
+                <header className="flex items-center justify-between bg-white px-4 py-3 shadow-sm">
+                    <div className="flex items-center gap-2">
+                        <Menu className="md:hidden" />
+                        <h1 className="text-xl font-bold">Dashboard</h1>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <Input type="text" placeholder="Search..." className="hidden md:block w-64" />
+                        <Bell className="h-5 w-5" />
+                        <div className="h-8 w-8 rounded-full bg-gray-400" />
+                    </div>
                 </header>
 
                 {/* Content Area */}

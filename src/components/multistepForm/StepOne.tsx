@@ -13,17 +13,27 @@ export default function StepOne() {
             <div className="space-y-2">
                 <Label>Full Name</Label>
                 <Input {...register("fullName", { required: "Full Name is required" })} />
-                {errors.fullName?.message && (
-                    <p className="text-red-500 text-sm">{errors.fullName.message}</p>
-                )}
+                {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName.message}</p>}
             </div>
+
             <div className="space-y-2">
                 <Label>Email</Label>
-                <Input type="email" {...register("email", { required: "Email is required" })} />
-                {errors.email?.message && (
-                    <p className="text-red-500 text-sm">{errors.email.message}</p>
-                )}
+                <Input
+                    type="email"
+                    {...register("email", {
+                        required: "Email is required",
+                        // Correct regex (single backslashes). Matches typical email formats.
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: "Invalid email format",
+                        },
+                        // Optional: trim whitespace before validation
+                        setValueAs: (v) => (typeof v === "string" ? v.trim() : v),
+                    })}
+                />
+                {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
             </div>
+
             <div className="space-y-2">
                 <Label>Phone (Optional)</Label>
                 <Input type="tel" {...register("phone")} />

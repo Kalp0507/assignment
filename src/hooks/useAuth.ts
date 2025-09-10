@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 type User = {
+  username: string;
   email: string;
   password: string;
 };
@@ -25,7 +26,7 @@ export function useAuth() {
   }, []);
 
   // Mock signup
-  const signup = async (email: string, password: string) => {
+  const signup = async (email: string, password: string, username: string) => {
     setLoading(true);
     setError(null);
 
@@ -37,7 +38,7 @@ export function useAuth() {
           setLoading(false);
           reject("User exists");
         } else {
-          const newUser = { email, password };
+          const newUser: User = { email, password, username };
           localStorage.setItem("user", JSON.stringify(newUser));
           setUser(newUser);
           setLoading(false);
@@ -56,7 +57,7 @@ export function useAuth() {
       setTimeout(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
-          const parsed = JSON.parse(storedUser);
+          const parsed: User = JSON.parse(storedUser);
           if (parsed.email === email && parsed.password === password) {
             setUser(parsed);
             setLoading(false);

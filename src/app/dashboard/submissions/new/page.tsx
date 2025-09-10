@@ -14,13 +14,13 @@ import { useRouter } from "next/navigation"
 const steps = ["Personal Info", "Address", "Account", "Confirm"]
 
 export default function MultiStepFormPage() {
-    const methods = useForm<FormData>({ mode: "onBlur" })
-    const { handleSubmit, watch } = methods
-    const [step, setStep] = useState(1)
-    const saveFormData = useFormStore((state) => state.saveFormData)
     const formData = useFormStore((state) => state.formData)
-    const router = useRouter();
+    const methods = useForm<FormData>({ mode: "onBlur", defaultValues: formData })
+    const { handleSubmit, watch } = methods
+    const saveFormData = useFormStore((state) => state.saveFormData)
     const addSubmission = useFormStore((state) => state.addSubmission)
+    const [step, setStep] = useState(1)
+    const router = useRouter();
 
     const onSubmit = (data: FormData) => {
         saveFormData(data)

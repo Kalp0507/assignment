@@ -13,6 +13,7 @@ export default function SignupPage() {
     const { signup, loading, error } = useAuth();
     const router = useRouter();
 
+    const [username, setUsername] = useState(""); // ✅ new state
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,12 +29,13 @@ export default function SignupPage() {
         }
 
         try {
-            await signup(email, password)
-            toast.success("Signed up successfully!")
-            router.push("/")
+            // ✅ pass username if your signup supports it
+            await signup(email, password, username);
+            toast.success("Signed up successfully!");
+            router.push("/");
         } catch (err) {
             console.log(err);
-            toast.error("Signup failed. Please try again.")
+            toast.error("Signup failed. Please try again.");
         }
     };
 
@@ -47,6 +49,20 @@ export default function SignupPage() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
+                        {/* Username */}
+                        <div className="flex flex-col gap-2">
+                            <Label htmlFor="username">Username</Label>
+                            <Input
+                                id="username"
+                                type="text"
+                                placeholder="yourusername"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        {/* Email */}
                         <div className="flex flex-col gap-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
@@ -59,6 +75,7 @@ export default function SignupPage() {
                             />
                         </div>
 
+                        {/* Password */}
                         <div className="flex flex-col gap-2">
                             <Label htmlFor="password">Password</Label>
                             <Input
@@ -71,6 +88,7 @@ export default function SignupPage() {
                             />
                         </div>
 
+                        {/* Confirm Password */}
                         <div className="flex flex-col gap-2">
                             <Label htmlFor="confirmPassword">Confirm Password</Label>
                             <Input
@@ -96,7 +114,7 @@ export default function SignupPage() {
                     </form>
 
                     <p
-                        onClick={() => router.push("/auth/login")}
+                        onClick={() => router.push("/login")}
                         className="text-sm mt-6 text-center text-blue-600 hover:underline cursor-pointer"
                     >
                         Already have an account? Login

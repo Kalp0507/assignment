@@ -21,7 +21,7 @@ export default function LoginPage() {
         try {
             await login(email, password);
             toast.success("Logged in successfully!")
-            router.push("/")
+            router.push("/dashboard")
         } catch (err) {
             console.log(err);
             toast.error("Login failed. Please try again.")
@@ -68,7 +68,7 @@ export default function LoginPage() {
                     </form>
 
                     <p
-                        onClick={() => router.push("/auth/signup")}
+                        onClick={() => router.push("/signup")}
                         className="text-sm mt-6 text-center text-blue-600 hover:underline cursor-pointer"
                     >
                         Don’t have an account? Sign Up

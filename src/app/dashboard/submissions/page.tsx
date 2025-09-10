@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
+import { Inbox } from "lucide-react"
 
 export default function SubmissionsPage() {
     const submissions = useFormStore((s) => s.submissions)
@@ -25,7 +26,16 @@ export default function SubmissionsPage() {
 
             {/* Table */}
             {submissions.length === 0 ? (
-                <p className="text-muted-foreground">No submissions yet.</p>
+                <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center shadow-sm">
+                    <Inbox className="h-12 w-12 text-muted-foreground mb-4" />
+                    <h2 className="text-lg font-semibold">No submissions yet</h2>
+                    <p className="text-sm text-muted-foreground mb-6">
+                        Get started by adding your first submission.
+                    </p>
+                    <Button onClick={() => router.push("submissions/new")}>
+                        + Add New Submission
+                    </Button>
+                </div>
             ) : (
                 <div className="grid gap-4 md:grid-cols-2">
                     {submissions.map((sub, idx) => (
